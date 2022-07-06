@@ -39,11 +39,12 @@ public class ImpoundTask extends BukkitRunnable {
                 if (entity.getCustomName() == null) continue;
                 if (!(entity.getCustomName().contains("MTVEHICLES_"))) continue;
                 ArmorStand armorStand = (ArmorStand) entity;
-
                 if (entity.getCustomName().contains("SKIN")) {
                     String licensePlate = NBTEditor.getString(armorStand.getHelmet(), "mtvehicles.kenteken");
                     Vehicle vehicle = VehicleUtils.getVehicle(licensePlate);
+                    if(vehicle == null) continue;
                     String ownerUuid = vehicle.getOwnerUUID().toString();
+                    if(ownerUuid == null) continue;
                     ImpoundUtils.addPlateToImpound(ownerUuid, licensePlate);
                     new ParticleBuilder(ParticleEffect.CLOUD, armorStand.getLocation())
                             .setAmount(50)
