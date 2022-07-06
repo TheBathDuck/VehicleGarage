@@ -1,4 +1,9 @@
 name: VehicleGarage
 version: '${project.version}'
 main: nl.thebathduck.vehiclegarage.VehicleGarage
-api-version: 1.13
+author: TheBathDuck
+softdepend: [HolographicDisplays, WorldGuard, MTVehicles]
+commands:
+  garage: {}
+  garagelocation: {}
+  impound: {}
