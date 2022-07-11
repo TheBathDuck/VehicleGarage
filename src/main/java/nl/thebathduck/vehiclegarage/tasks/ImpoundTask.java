@@ -7,6 +7,7 @@ import nl.thebathduck.vehiclegarage.utils.ImpoundUtils;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
@@ -54,11 +55,10 @@ public class ImpoundTask extends BukkitRunnable {
                     armorStand.remove();
                 }
 
-                if (entity != null || !entity.isDead()) {
+                if (!entity.isDead()) {
                     entity.remove();
-                } // Eu^73Qzb0.rt4Er^HVil2o+n
+                }
             }
         }
     }
-
 }

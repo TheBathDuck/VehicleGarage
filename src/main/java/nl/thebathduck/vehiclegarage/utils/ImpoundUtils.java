@@ -37,7 +37,7 @@ public class ImpoundUtils {
     }
 
     public static void runTask(List<World> worlds) {
-        Bukkit.getScheduler().runTaskAsynchronously(VehicleGarage.getInstance(), new ImpoundTask(worlds));
+        Bukkit.getScheduler().runTaskLaterAsynchronously(VehicleGarage.getInstance(), new ImpoundTask(worlds), 20*5);
     }
 
     public static List<String> getImpoundPlates(String uuid) {
