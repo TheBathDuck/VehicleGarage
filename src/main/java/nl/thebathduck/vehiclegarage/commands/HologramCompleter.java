@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class HologramCompleter implements TabCompleter {

@@ -1,8 +1,8 @@
 package nl.thebathduck.vehiclegarage.menu;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import nl.mtvehicles.core.infrastructure.models.Vehicle;
-import nl.mtvehicles.core.infrastructure.models.VehicleUtils;
+import nl.mtvehicles.core.infrastructure.vehicle.Vehicle;
+import nl.mtvehicles.core.infrastructure.vehicle.VehicleUtils;
 import nl.thebathduck.vehiclegarage.VehicleGarage;
 import nl.thebathduck.vehiclegarage.utils.GUIHolder;
 import nl.thebathduck.vehiclegarage.utils.ImpoundUtils;
@@ -21,10 +21,10 @@ public class ImpoundMenu extends GUIHolder {
     ItemFlag[] flags = {ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE};
 
     public ImpoundMenu(Player player, int page) {
-        int pageSize = 9*5;
+        int pageSize = 9 * 5;
         ArrayList<String> licensePlates = new ArrayList<>(ImpoundUtils.getImpoundPlates(player.getUniqueId().toString()));
 
-        this.inventory = Bukkit.createInventory(this, 6*9, Utils.color("&4Impound"));
+        this.inventory = Bukkit.createInventory(this, 6 * 9, Utils.color("&4Impound"));
         player.openInventory(inventory);
 
         for (int i = 0; i < Math.min(licensePlates.size() - page * pageSize, pageSize); i++) {
@@ -67,15 +67,15 @@ public class ImpoundMenu extends GUIHolder {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        if(event.getCurrentItem() == null) return;
-        if(event.getCurrentItem().getType().equals(Material.AIR)) return;
+        if (event.getCurrentItem() == null) return;
+        if (event.getCurrentItem().getType().equals(Material.AIR)) return;
         event.setCancelled(true);
         ItemStack item = event.getCurrentItem();
         Player player = (Player) event.getWhoClicked();
 
-        if(!event.getInventory().equals(inventory)) return;
+        if (!event.getInventory().equals(inventory)) return;
 
-        if(item.getType().equals(Material.SPECTRAL_ARROW)) {
+        if (item.getType().equals(Material.SPECTRAL_ARROW)) {
             int np = Integer.valueOf(NBTEditor.getString(item, "page"));
             new GarageMenu(player, np);
             return;
@@ -84,7 +84,7 @@ public class ImpoundMenu extends GUIHolder {
         String license = NBTEditor.getString(event.getCurrentItem(), "mtvLicense");
         Vehicle vehicle = VehicleUtils.getVehicle(license);
 
-        if(!VehicleGarage.getInstance().getEconomy().has(player, 500)) {
+        if (!VehicleGarage.getInstance().getEconomy().has(player, 500)) {
             player.sendMessage(Utils.color("&cJe hebt niet genoeg geld op je rekening!"));
             return;
         }

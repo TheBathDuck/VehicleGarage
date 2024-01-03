@@ -1,33 +1,28 @@
 package nl.thebathduck.vehiclegarage.menu;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import nl.mtvehicles.core.infrastructure.helpers.ItemFactory;
-import nl.mtvehicles.core.infrastructure.helpers.ItemUtils;
-import nl.mtvehicles.core.infrastructure.models.Vehicle;
-import nl.mtvehicles.core.infrastructure.models.VehicleUtils;
-import nl.thebathduck.vehiclegarage.VehicleGarage;
-import nl.thebathduck.vehiclegarage.utils.Utils;
+import nl.mtvehicles.core.infrastructure.vehicle.Vehicle;
+import nl.mtvehicles.core.infrastructure.vehicle.VehicleUtils;
 import nl.thebathduck.vehiclegarage.utils.GUIHolder;
 import nl.thebathduck.vehiclegarage.utils.ItemBuilder;
+import nl.thebathduck.vehiclegarage.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class GarageMenu extends GUIHolder {
     ItemFlag[] flags = {ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_UNBREAKABLE};
 
     public GarageMenu(Player player, int page) {
-        int pageSize = 9*5;
+        int pageSize = 9 * 5;
         ArrayList<String> licensePlates = new ArrayList<>(Utils.getGaragePlates(player));
 
-        this.inventory = Bukkit.createInventory(this, 6*9, "Je Garage");
+        this.inventory = Bukkit.createInventory(this, 6 * 9, "Je Garage");
         player.openInventory(inventory);
 
         for (int i = 0; i < Math.min(licensePlates.size() - page * pageSize, pageSize); i++) {
@@ -72,25 +67,25 @@ public class GarageMenu extends GUIHolder {
 
     @Override
     public void onClick(InventoryClickEvent event) {
-        if(event.getCurrentItem() == null) return;
-        if(event.getCurrentItem().getType().equals(Material.AIR)) return;
+        if (event.getCurrentItem() == null) return;
+        if (event.getCurrentItem().getType().equals(Material.AIR)) return;
         event.setCancelled(true);
         ItemStack item = event.getCurrentItem();
         Player player = (Player) event.getWhoClicked();
 
-        if(item.getType().equals(Material.SPECTRAL_ARROW)) {
+        if (item.getType().equals(Material.SPECTRAL_ARROW)) {
             int np = Integer.valueOf(NBTEditor.getString(item, "page"));
             new GarageMenu(player, np);
             return;
         }
 
-        if(!event.getInventory().equals(this.inventory)) return;
+        if (!event.getInventory().equals(this.inventory)) return;
         player.closeInventory();
 
         String licensePlate = NBTEditor.getString(event.getCurrentItem(), "mtvLicense");
         Vehicle vehicle = VehicleUtils.getVehicle(licensePlate);
 
-        if(vehicle == null) {
+        if (vehicle == null) {
             player.sendMessage(Utils.color("&cEr ging iets mis met het ophalen van deze vehicle."));
             return;
         }

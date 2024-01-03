@@ -1,8 +1,8 @@
 package nl.thebathduck.vehiclegarage.utils;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import nl.mtvehicles.core.infrastructure.models.Vehicle;
-import nl.mtvehicles.core.infrastructure.models.VehicleUtils;
+import nl.mtvehicles.core.infrastructure.vehicle.Vehicle;
+import nl.mtvehicles.core.infrastructure.vehicle.VehicleUtils;
 import nl.thebathduck.vehiclegarage.VehicleGarage;
 import nl.thebathduck.vehiclegarage.tasks.ImpoundTask;
 import org.bukkit.Bukkit;
@@ -10,9 +10,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +20,11 @@ public class ImpoundUtils {
 
     private static List<Vehicle> getVehicles(World world) {
         List<Vehicle> vehicles = new ArrayList<>();
-        for(Entity entity : world.getEntities()) {
-            if(!(entity instanceof ArmorStand)) continue;
-            if(entity.getCustomName() == null) continue;
-            if(!(entity.getCustomName().contains("MTVEHICLES_"))) continue;
-            if(entity.getCustomName().contains("SKIN")) continue;
+        for (Entity entity : world.getEntities()) {
+            if (!(entity instanceof ArmorStand)) continue;
+            if (entity.getCustomName() == null) continue;
+            if (!(entity.getCustomName().contains("MTVEHICLES_"))) continue;
+            if (entity.getCustomName().contains("SKIN")) continue;
             ArmorStand stand = (ArmorStand) entity;
             ItemStack head = stand.getHelmet();
             String licensePlate = NBTEditor.getString(head, "mtvehicles.kenteken");
@@ -37,7 +35,7 @@ public class ImpoundUtils {
     }
 
     public static void runTask(List<World> worlds) {
-        Bukkit.getScheduler().runTaskLaterAsynchronously(VehicleGarage.getInstance(), new ImpoundTask(worlds), 20*5);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(VehicleGarage.getInstance(), new ImpoundTask(worlds), 20 * 5);
     }
 
     public static List<String> getImpoundPlates(String uuid) {

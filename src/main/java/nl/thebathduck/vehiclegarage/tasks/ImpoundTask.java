@@ -1,21 +1,16 @@
 package nl.thebathduck.vehiclegarage.tasks;
 
 import io.github.bananapuncher714.nbteditor.NBTEditor;
-import nl.mtvehicles.core.infrastructure.models.Vehicle;
-import nl.mtvehicles.core.infrastructure.models.VehicleUtils;
+import nl.mtvehicles.core.infrastructure.vehicle.Vehicle;
+import nl.mtvehicles.core.infrastructure.vehicle.VehicleUtils;
 import nl.thebathduck.vehiclegarage.utils.ImpoundUtils;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,9 +38,9 @@ public class ImpoundTask extends BukkitRunnable {
                 if (entity.getCustomName().contains("SKIN")) {
                     String licensePlate = NBTEditor.getString(armorStand.getHelmet(), "mtvehicles.kenteken");
                     Vehicle vehicle = VehicleUtils.getVehicle(licensePlate);
-                    if(vehicle == null) continue;
+                    if (vehicle == null) continue;
                     String ownerUuid = vehicle.getOwnerUUID().toString();
-                    if(ownerUuid == null) continue;
+                    if (ownerUuid == null) continue;
                     ImpoundUtils.addPlateToImpound(ownerUuid, licensePlate);
                     new ParticleBuilder(ParticleEffect.CLOUD, armorStand.getLocation())
                             .setAmount(50)

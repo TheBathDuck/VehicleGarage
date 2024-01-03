@@ -9,7 +9,7 @@ public class VehiclePickupListener implements Listener {
 
     @EventHandler
     public void onPickup(VehiclePickUpEvent event) {
-        if(!event.getPlayer().hasPermission("garage.monteur")) {
+        if (!event.getPlayer().hasPermission("garage.monteur")) {
             event.setCancelled(true);
             event.getPlayer().sendMessage(Utils.color("&cJij kan voertuigen niet oppakken!"));
             return;

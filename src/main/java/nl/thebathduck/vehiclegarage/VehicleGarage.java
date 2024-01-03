@@ -1,27 +1,16 @@
 package nl.thebathduck.vehiclegarage;
 
 import net.milkbowl.vault.economy.Economy;
-import nl.mtvehicles.core.infrastructure.models.Config;
 import nl.thebathduck.vehiclegarage.commands.*;
 import nl.thebathduck.vehiclegarage.listeners.ToggleListener;
 import nl.thebathduck.vehiclegarage.listeners.VehicleLeaveListener;
 import nl.thebathduck.vehiclegarage.listeners.VehiclePickupListener;
-import nl.thebathduck.vehiclegarage.menu.ImpoundMenu;
-import nl.thebathduck.vehiclegarage.tasks.ImpoundTask;
 import nl.thebathduck.vehiclegarage.utils.*;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.codemc.worldguardwrapper.region.IWrappedRegion;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 public final class VehicleGarage extends JavaPlugin {
 
@@ -34,10 +23,11 @@ public final class VehicleGarage extends JavaPlugin {
     public void onLoad() {
         Utils.registerWGFlags();
     }
+
     @Override
     public void onEnable() {
 
-        if(!hasDepends()) {
+        if (!hasDepends()) {
             getPluginLoader().disablePlugin(this);
             return;
         }
@@ -76,21 +66,28 @@ public final class VehicleGarage extends JavaPlugin {
     }
 
     public boolean hasDepends() {
-        if(getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
+        if (getServer().getPluginManager().getPlugin("MTVehicles") == null) {
+            getLogger().severe("");
+            getLogger().severe("MTVehicles not found, couldn't hook!");
+            getLogger().severe("Disabling VehicleGarage..");
+            getLogger().severe("");
+            return false;
+        }
+        if (getServer().getPluginManager().getPlugin("HolographicDisplays") == null) {
             getLogger().severe("");
             getLogger().severe("HolographicDisplays not found, couldn't hook!");
             getLogger().severe("Disabling VehicleGarage..");
             getLogger().severe("");
             return false;
         }
-        if(getServer().getPluginManager().getPlugin("WorldGuard") == null) {
+        if (getServer().getPluginManager().getPlugin("WorldGuard") == null) {
             getLogger().severe("");
             getLogger().severe("WorldGuard not found, couldn't hook!");
             getLogger().severe("Disabling VehicleGarage..");
             getLogger().severe("");
             return false;
         }
-        if(getServer().getPluginManager().getPlugin("Vault") == null) {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
             getLogger().severe("");
             getLogger().severe("Vault not found, couldn't hook!");
             getLogger().severe("Disabling VehicleGarage..");
@@ -105,7 +102,7 @@ public final class VehicleGarage extends JavaPlugin {
             return;
         }
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
-        if(rsp == null) {
+        if (rsp == null) {
             return;
         }
         economy = rsp.getProvider();
@@ -114,6 +111,7 @@ public final class VehicleGarage extends JavaPlugin {
     public ConfigurationFile getVehicleData() {
         return vehicleData;
     }
+
     public FileConfiguration getVehicleConfig() {
         return vehicleData.getConfig();
     }
